@@ -11,11 +11,16 @@ const sendWelcomeMessage = (user) => {
       email: 'admin@bookshelf.io',
       name: 'BookShelf'
     },
-    subject: `Welcome to BookShelf, ${user.firstName}!`,
-    content: [{
-      type: 'text/html',
-      value: `<h1>Welcome to BookShelf!</h1><h3>Thanks for signing up, ${user.firstName}!</h3><p>With Bookshelf, you can track the books that you've read and discover new books that you're going to love.</p>`
-    }]
+    text: 'Thank you for signing up!',
+    templateId: 'd-97c566301f41437385b8f04ddbfda6f9',
+    categories: ['Transactional', 'Notifications'],
+    dynamic_template_data: {
+      user: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      }
+    }
   };
   sgMail.send(msg);
 };
