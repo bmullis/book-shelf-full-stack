@@ -4,6 +4,14 @@ import { colors } from '../../theme';
 import { shortener } from '../../helpers/shortener';
 
 const BookSearchResultsCard = ({ book }) => {
+  const getBookBackground = (book) => {
+    if (book.volumeInfo.imageLinks) {
+      return `url(${book.volumeInfo.imageLinks.thumbnail})`
+    } else {
+      return colors.gray400
+    };
+  };
+
   return (
     <div 
       className="bookSearchResultsCard"
@@ -11,20 +19,21 @@ const BookSearchResultsCard = ({ book }) => {
       style={styles.root} 
     >
       <div style={styles.mediaImage}>
-        {
-          book.volumeInfo.imageLinks && 
-          <img 
-            style={{ maxWidth: '100%' }}
-            src={book.volumeInfo.imageLinks.thumbnail} 
-            alt={`Cover of ${book.volumeInfo.title}`} 
-          />
-        }
+        <div style={{ 
+          background: getBookBackground(book),
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          borderRadius: '8px',
+          height: '50px',
+          width: '50px',
+        }}></div>
       </div>
       <div style={styles.content}>
-        <p>Title: {book.volumeInfo.title}</p>
-        <p>Authors: {book.volumeInfo.authors && book.volumeInfo.authors.length > 1 ? book.volumeInfo.authors.join(', ') : book.volumeInfo.authors}</p>
-        
-        <p>Description: {book.volumeInfo.description && shortener(book.volumeInfo.description, 200)}</p>
+        <div>
+          <p style={styles.bookTitle}>{shortener(book.volumeInfo.title, 30)}</p>
+          <p style={styles.bookAuthor}>{book.volumeInfo.authors && book.volumeInfo.authors.length > 1 ? book.volumeInfo.authors.join(', ') : book.volumeInfo.authors}</p>
+        </div>
+        <i style={styles.chevron} className="material-icons">arrow_forward_ios</i>
       </div>
     </div>
   );
@@ -33,22 +42,32 @@ const BookSearchResultsCard = ({ book }) => {
 const styles = {
   root: {
     alignItems: 'center',
-    borderLeft: `1px solid ${colors.gray400}`,
-    borderRight: `1px solid ${colors.gray400}`,
-    borderBottom: `1px solid ${colors.gray400}`,
     display: 'flex',
     fontSize: '14px',
     height: 'auto',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
     padding: '0 10px 0 0',
     width: '100%',
   },
   mediaImage: {
-    width: '7%'
+    padding: '20px',
+    width: 'auto'
   },
   content: {
-    paddingLeft: '20px',
-    width: '93%'
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%'
+  },
+  bookTitle: {
+    fontSize: '1rem',
+    color: colors.primary,
+    margin: '8px 0'
+  },
+  bookAuthor: {
+    fontSize: '0.8rem',
+    color: colors.gray100,
+    margin: '8px 0'
   }
 }
 
