@@ -12,7 +12,7 @@ const styles = {
   container: { 
     display: 'block',
     margin: '0 auto',
-    width: '60rem'
+    width: '30rem'
   }
 }
 
